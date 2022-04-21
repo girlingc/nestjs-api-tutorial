@@ -33,6 +33,7 @@ export class AuthService {
           throw new ForbiddenException('Credentials taken');
         }
       }
+      throw error;
     }
   }
 
@@ -50,9 +51,9 @@ export class AuthService {
     const pwMatches = await argon.verify(user.hash, dto.password);
     // if password incorrect throw exception
     if (!pwMatches) throw new ForbiddenException('Credentials incorrect');
-
     return this.signToken(user.id, user.email);
   }
+
   async signToken(
     userId: number,
     email: string,
